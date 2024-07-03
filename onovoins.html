@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>[SRC] - Promovidos da Semana!</title>
+    <link rel="icon" href="https://www.habbo.com.br/habbo-imaging/badge/b09064s43084s50134eda71d18c813ca341e7e285475586bf5.gif">
+    <link rel="stylesheet" href="css.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        /* Estilo do HTML */
+        html {
+            height: 100%;
+            background-color: #ffffff; /* Background branco para a página */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow-y: auto;
+            background: transparent;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.5s ease-in-out;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #005dad;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .promo-item, .project-item {
+            background-color: #e7e7e7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .promo-item img, .project-item img {
+            margin-right: 10px;
+        }
+
+        .promo-item b, .project-item b {
+            color: #005dad;
+        }
+
+        .logo {
+            width: auto; /* Utiliza o tamanho original da imagem */
+            max-width: 100%; /* Garante que não ultrapasse o tamanho original */
+            height: auto;
+            margin: 40px auto; /* Margem de 40px nas laterais e superior/inferior automático */
+            position: relative;
+            z-index: 0;
+            margin-top: 20px; /* Ajusta a margem superior para descer mais um pouco */
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #bf74c7;
+            font-size: 14px;
+            color: #ffffffc8;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .credits p strong {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .credits i {
+            margin-right: 8px;
+        }
+
+        .credits .line-break {
+            display: block;
+            margin-top: -10px;
+        }
+
+        .credits.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #07325A;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0e64b5;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0e64b5;
+        }
+
+        body {
+            scrollbar-width: thin;
+            scrollbar-color: #07325A #0e64b5;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0e64b5;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2em;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        /* Esconder a tela de carregamento */
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Animação para o texto "Carregando..." */
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Aplicar a animação ao texto */
+        #loading-screen span {
+            animation: fadeInOut 1s infinite;
+        }
+
+        /* Animação para o conteúdo */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilo do Navbar */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px; /* Largura do Navbar */
+            height: 100vh;
+            padding: 1rem 1rem 3rem;
+            background-color: #07325A; /* Cor do Navbar */
+            box-shadow: 1px 0 0 rgba(22, 8, 43, 0.1);
+            z-index: 1000;
+            transition: left 0.4s; /* Transição de animação */
+        }
+
+        .nav.show-menu {
+            left: 0; /* Exibir o Navbar ao abrir o menu */
+        }
+
+        .nav_container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: auto;
+        }
+
+        .nav_logo {
+            font-weight: bold;
+            margin-bottom: 2.5rem;
+            font-size: 24px;
+            color: white; /* Cor do texto do logo */
+        }
+
+        .nav_list {
+            display: grid;
+            row-gap: 2.5rem;
+        }
+
+        .nav_subtitle {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            color: #ffffffc8; /* Cor do subtítulo */
+        }
+
+        .nav_link {
+            display: flex;
+            align-items: center;
+            color: white; /* Cor do texto dos links */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav_link:hover {
+            color: #005dad; /* Cor ao passar o mouse */
+        }
+
+        .nav_icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+
+        .nav_name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+/* Estilo para o item ativo no navbar */
+.nav_item.active {
+    background-color: #00ad00; /* Cor de fundo para indicar ativo */
+}
+.nav_item.active .nav_name {
+    color: #ffffff; /* Cor do texto para indicar ativo */
+}
+
+    </style>
+</head>
+<body>
+
+    <nav class="nav" id="navbar">
+        <div class="nav_container">
+            <div class="nav_logo">
+                [SRC]
+            </div>
+            <div class="nav_list">
+                <div class="nav_item">
+                    <a href="inicial.html" class="nav_link">
+                        <i class='bx bx-home nav_icon'></i>
+                        <span class="nav_name">Home</span>
+                    </a>
+                </div>
+                <div class="nav_item">
+                    <div class="nav_item">
+                        <a href="atadereuniao.html" class="nav_link">
+                            <i class='bx bx-news nav_icon'></i>
+                            <span class="nav_name">Diário Oficial</span>
+                        </a>
+                    </div>
+                <div class="nav_item">
+                    <a href="onovoins.html" class="nav_link">
+                        <i class='bx bx-news nav_icon'></i>
+                        <span class="nav_name">Promovidos da Semana</span>
+                    </a>
+                </div>
+                <div class="nav_item">
+                    <a href="pagina2.html" class="nav_link">
+                        <i class='bx bx-news nav_icon'></i>
+                        <span class="nav_name">Projetos / Sugestões / Correções</span>
+                    </a>
+                </div>
+            </div>
+                
+
+            </div>
+            <div class="nav_developed">
+                Desenvolvido por [SRC]
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <img class="logo" src="https://i.imgur.com/sVUAYxC.gif" alt="Habbo Logo">
+
+        <div class="section">
+            <h1>Promovidos da Semana</h1>
+            <p id="periodo-abrangencia">Período de abrangência: Aguardando dados...</p>
+        </div>
+
+        <!-- Exibir todos os itens de promoção dinamicamente -->
+        <div class="section" id="novidades-semana">
+            <!-- Os itens serão adicionados aqui dinamicamente -->
+        </div>
+
+        
+
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var url = 'https://script.google.com/macros/s/AKfycby7uqvPuX7fWdssY80JQKoZq0OzxvRVtHAEgW6plu8U4N5P7nP8S0W2SqUt0fvy5iKdMQ/exec';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Dados recebidos:', data);
+
+                    // Exibe o período de abrangência
+                    var periodoInicio = data.periodoInicio;
+                    var periodoFim = data.periodoFim;
+                    var periodoAbrangencia = document.getElementById('periodo-abrangencia');
+                    periodoAbrangencia.textContent = `Período de abrangência: ${periodoInicio} até ${periodoFim}`;
+
+                    // Exibe os dados dos promovidos
+                    // Exibe os dados dos promovidos
+                    var novidadesContainer = document.getElementById('novidades-semana');
+                    data.promovidos.forEach(item => {
+    // Verifica se ambos nome e cargo estão preenchidos
+    if (item.nome.trim() !== '' && item.cargo.trim() !== '') {
+        var div = document.createElement('div');
+        div.className = 'promo-item';
+        div.innerHTML = `
+             <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?img_format=png&user=${encodeURIComponent(item.cargo)}&direction=2&head_direction=3&size=l&gesture=sml&action=wlk,wav" alt="Avatar">
+              <b>${item.cargo} </b>:  promovido(a) a ${item.nome}!
+        `;
+        novidadesContainer.appendChild(div);
+    }
+});
+
+
+
+
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar dados:', error);
+                });
+        });
+    </script>
+
+
+<script>
+    function selectPage(pageName) {
+       
+        const navItems = document.querySelectorAll('.nav_item');
+        navItems.forEach(item => {
+            item.classList.remove('active');
+        });
+    
+        
+        const selectedNavItem = document.querySelector(`.nav_item.${pageName}`);
+        if (selectedNavItem) {
+            selectedNavItem.classList.add('active');
+        }
+    }
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>[SRC] - Ata de Reunião</title>
+    <link rel="icon" href="https://www.habbo.com.br/habbo-imaging/badge/b09064s43084s50134eda71d18c813ca341e7e285475586bf5.gif">
+    <link rel="stylesheet" href="css.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <style>
+         html {
+            height: 100%;
+            background-color: #ffffff; /* Background branco para a página */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow-y: auto;
+            background: transparent;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.5s ease-in-out;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #005dad;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .item {
+            background-color: #e7e7e7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-content {
+            flex: 1; /* Ocupa todo o espaço disponível */
+        }
+
+        .item-content h3, .item-content p {
+            margin: 0; /* Remove as margens padrão */
+        }
+
+        .logo {
+            width: auto; /* Utiliza o tamanho original da imagem */
+            max-width: 100%; /* Garante que não ultrapasse o tamanho original */
+            height: auto;
+            margin: 40px auto; /* Margem de 40px nas laterais e superior/inferior automático */
+            position: relative;
+            z-index: 0;
+            margin-top: 20px; /* Ajusta a margem superior para descer mais um pouco */
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #bf74c7;
+            font-size: 14px;
+            color: #ffffffc8;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+.strong {
+    color: #005dad;
+}
+
+
+        .credits p strong {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .credits i {
+            margin-right: 8px;
+        }
+
+        .credits .line-break {
+            display: block;
+            margin-top: -10px;
+        }
+
+        .credits.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #07325A;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0e64b5;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0e64b5;
+        }
+
+        body {
+            scrollbar-width: thin;
+            scrollbar-color: #07325A #0e64b5;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0e64b5;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2em;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        /* Esconder a tela de carregamento */
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Animação para o texto "Carregando..." */
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Aplicar a animação ao texto */
+        #loading-screen span {
+            animation: fadeInOut 1s infinite;
+        }
+
+        /* Animação para o conteúdo */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilo do Navbar */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px; /* Largura do Navbar */
+            height: 100vh;
+            padding: 1rem 1rem 3rem;
+            background-color: #07325A; /* Cor do Navbar */
+            box-shadow: 1px 0 0 rgba(22, 8, 43, 0.1);
+            z-index: 1000;
+            transition: left 0.4s; /* Transição de animação */
+        }
+
+        .nav.show-menu {
+            left: 0; /* Exibir o Navbar ao abrir o menu */
+        }
+
+        .nav_container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: auto;
+        }
+
+        .nav_logo {
+            font-weight: bold;
+            margin-bottom: 2.5rem;
+            font-size: 24px;
+            color: white; /* Cor do texto do logo */
+        }
+
+        .nav_list {
+            display: grid;
+            row-gap: 2.5rem;
+        }
+
+        .nav_subtitle {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            color: #ffffffc8; /* Cor do subtítulo */
+        }
+
+        .nav_link {
+            display: flex;
+            align-items: center;
+            color: white; /* Cor do texto dos links */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav_link:hover {
+            color: #005dad; /* Cor ao passar o mouse */
+        }
+
+        .nav_icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+
+        .nav_name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .blue-text {
+            font-weight: bold;
+            color: #005dad; /* Cor azul utilizando o mesmo RGB mencionado anteriormente */
+        }
+
+        .section #date {
+            font-weight: normal;
+            color: #005dad; /* Cor preta (ou outra cor desejada) */
+            margin-left: 10px; /* Espaço entre o texto principal e a data */
+        }
+
+        .attachments-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .attachment-box {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.attachment-content {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.attachment-box:hover .attachment-content {
+    display: block;
+}
+
+.attachment-icon {
+    width: 50px; /* Ajuste o tamanho do ícone conforme necessário */
+    height: 50px; /* Ajuste o tamanho do ícone conforme necessário */
+    cursor: pointer;
+}
+
+
+blue-text {
+    font-weight: bold;
+    color: #005dad;
+}
+
+        @media (max-width: 768px) {
+            .blue-text {
+                font-weight: bold;
+                color: #005dad;
+                font-size: 14px; /* Exemplo de tamanho de fonte para dispositivos móveis */
+                line-height: 1.4; /* Exemplo de altura da linha para dispositivos móveis */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav" id="navbar">
+        <div class="nav_container">
+            <div class="nav_logo">
+                [SRC]
+            </div>
+            <div class="nav_list">
+                <div class="nav_item">
+                    <a href="inicial.html" class="nav_link">
+                        <i class='bx bx-home nav_icon'></i>
+                        <span class="nav_name">Home</span>
+                    </a>
+                </div>
+                <div class="nav_item">
+                    <div class="nav_item">
+                        <a href="atadereuniao.html" class="nav_link">
+                            <i class='bx bx-news nav_icon'></i>
+                            <span class="nav_name">Diário Oficial</span>
+                        </a>
+                    </div>
+                <div class="nav_item">
+                    <a href="onovoins.html" class="nav_link">
+                        <i class='bx bx-news nav_icon'></i>
+                        <span class="nav_name">Promovidos da Semana</span>
+                    </a>
+                </div>
+                <div class="nav_item">
+                    <a href="pagina2.html" class="nav_link">
+                        <i class='bx bx-news nav_icon'></i>
+                        <span class="nav_name">Projetos / Sugestões / Correções</span>
+                    </a>
+                </div>
+            </div>
+            <div class="nav_developed">
+                Desenvolvido por [SRC]
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <img class="logo" src="https://i.imgur.com/sVUAYxC.gif" alt="Habbo Logo">
+        <h1>ATA de Reunião</h1>
+          <div class="item">
+        <div class="section" id="description">
+            <p></p><span class="blue-text">O Setor de Relações Comunicativas dos Instrutores</span> informa neste tópico, são colocadas as informações abordadas durante as reuniões gerais, sejam avisos e mudanças na companhia, projetos aprovados e/ou promoções.</p>
+              <span>Caso tenha perdido algo da reunião realizada no dia<span blue-text id="date">Período de abrangência: Aguardando dados...</span>, veja aqui.</span>
+          
+        </div>
+    
+      
+    </div>
+        <div class="section">
+            <h2>Informações Importantes</h2>
+            <div class="item">
+                <p><span id="importantInfo"></span></p>
+            </div>
+        </div>
+    
+     
+        <div class="section">
+            <h2>Projetos / Correções / Sugestões</h2>
+            <div class="item">
+                <p><span id="projects"></span></p>
+            </div>
+        </div>
+
+
+    
+        <div class="section">
+            <h2>Promovidos</h2>
+            <div class="item">
+           
+            <div id="promoted">
+                <!-- Promoção VL > L -->
+                <div class="promoted-item" id="vl-to-l">
+                    <strong class="blue-text">VL > L:</strong> <span id="VLtoL"></span>
+                </div>
+        
+                <!-- Promoção Min > VL -->
+                <div class="promoted-item" id="min-to-vl">
+                    <strong class="blue-text">Min > VL:</strong> <span id="MinToVL"></span>
+                </div>
+        
+                <!-- Promoção Est > Min -->
+                <div class="promoted-item" id="est-to-min">
+                    <strong class="blue-text">Est > Min:</strong> <span id="EstToMin"></span>
+                </div>
+        
+                <!-- Promoção Cap > Est -->
+                <div class="promoted-item" id="cap-to-est">
+                    <strong class="blue-text">Cap > Est:</strong> <span id="CapToEst"></span>
+                </div>
+        
+                <!-- Promoção Av > Cap -->
+                <div class="promoted-item" id="av-to-cap">
+                    <strong class="blue-text">Av > Cap:</strong> <span id="AvToCap"></span>
+                </div>
+        
+                <!-- Promoção Grad > Av -->
+                <div class="promoted-item" id="grad-to-av">
+                    <strong class="blue-text">Grad > Av:</strong> <span id="GradToAv"></span>
+                </div>
+        
+                <!-- Promoção Ins > Grad -->
+                <div class="promoted-item" id="ins-to-grad">
+                    <strong class="blue-text">Ins > Grad:</strong> <span id="InsToGrad"></span>
+                </div>
+        
+                <!-- Promoção Ap > Ins -->
+                <div class="promoted-item" id="ap-to-ins">
+                    <strong class="blue-text">Ap > Ins:</strong> <span id="ApToIns"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    
+        <div class="section">
+            <h2>Anexos</h2>
+            <div class="attachments-container" id="attachments"></div>
+        </div>
+
+        <div class="attachments-container" id="attachments">
+            <!-- Anexos serão inseridos aqui pelo JavaScript -->
+        </div>
+        
+        <!-- Template para exibição expandida -->
+        <div id="attachment-overlay" class="attachment-overlay" style="display:none;"></div>
+        <img id="attachment-expanded" class="attachment-expanded" style="display:none;" />
+
+
+    
+        <div class="credits" id="credits">
+            <p>Feito por <strong>[SRC]</strong></p>
+            <i class='bx bxs-smile'></i>
+            <span class="line-break"></span>
+        </div>
+    </div>
+    
+    
+    
+    <script>
+        // Função para carregar os dados da planilha
+        function loadData() {
+            fetch('https://script.google.com/macros/s/AKfycbx_5ynXqQniLq26L3mubhYRSXUT-37ackuluQszjw8mKA-mmOCqEPnMpZxZT3xWX4SwMw/exec')
+                .then(response => response.json())
+                .then(data => {
+                    // Preencher os elementos HTML com os dados obtidos
+                    document.getElementById('date').textContent = data.date;
+                    document.getElementById('importantInfo').textContent = data.importantInfo;
+    
+                    // Atualizar a lista de projetos, sugestões e alterações
+                    updateProjects(data.projects);
+    
+                    // Atualizar promoções se estiverem disponíveis
+                    updatePromotions(data.promoted);
+    
+                    // Atualizar os anexos
+                    updateAttachments(data.attachments);
+                })
+                .catch(error => console.error('Erro ao carregar dados:', error));
+        }
+    
+        // Função para atualizar os projetos na lista
+        function updateProjects(projects) {
+            var projectsList = document.getElementById('projects');
+            projectsList.innerHTML = ''; // Limpar a lista antes de adicionar os novos itens
+    
+            projects.forEach(function(project) {
+                var projectItems = project.split('/'); // Dividir os itens pelo caractere '/'
+    
+                projectItems.forEach(function(item) {
+                    var projectItem = document.createElement('li');
+                    projectItem.textContent = item.trim(); // Adicionar cada item como texto de um novo <li>
+                    projectsList.appendChild(projectItem); // Adicionar o <li> à lista de projetos
+                });
+            });
+        }
+    
+        // Função para atualizar as promoções na página
+        function updatePromotions(promotions) {
+            // Definir um mapeamento de IDs para os elementos correspondentes
+            const promotionElements = {
+                VLtoL: 'vl-to-l',
+                MinToVL: 'min-to-vl',
+                EstToMin: 'est-to-min',
+                CapToEst: 'cap-to-est',
+                AvToCap: 'av-to-cap',
+                GradToAv: 'grad-to-av',
+                InsToGrad: 'ins-to-grad',
+                ApToIns: 'ap-to-ins'
+            };
+    
+            // Iterar sobre cada promoção e atualizar na página se houver conteúdo
+            for (const key in promotionElements) {
+                const elementId = promotionElements[key];
+                const promotionValue = promotions[key].trim();
+                const element = document.getElementById(elementId);
+    
+                if (element) {
+                    if (promotionValue !== '') {
+                        element.querySelector('span').textContent = promotionValue;
+                        element.style.display = 'block'; // Mostrar o elemento
+                    } else {
+                        element.style.display = 'none'; // Ocultar o elemento se não houver promoção
+                    }
+                }
+            }
+        }
+    
+        // Função para atualizar os anexos como uma galeria
+        function updateAttachments(attachments) {
+            const attachmentsContainer = document.getElementById('attachments');
+            attachmentsContainer.innerHTML = ''; // Limpar os anexos antes de adicionar os novos
+    
+            attachments.forEach(attachment => {
+                const imgElement = document.createElement('img');
+                imgElement.src = attachment;
+                imgElement.className = 'attachment-icon';
+                imgElement.addEventListener('click', () => expandAttachment(attachment));
+                const attachmentBox = document.createElement('div');
+                attachmentBox.className = 'attachment-box';
+                attachmentBox.appendChild(imgElement);
+                attachmentsContainer.appendChild(attachmentBox);
+            });
+        }
+    
+        // Função para expandir a imagem
+        function expandAttachment(src) {
+            const overlay = document.getElementById('attachment-overlay');
+            const expandedImage = document.getElementById('attachment-expanded');
+            overlay.style.display = 'block';
+            expandedImage.src = src;
+            expandedImage.style.display = 'block';
+            overlay.addEventListener('click', closeExpandedAttachment);
+            expandedImage.addEventListener('click', closeExpandedAttachment);
+        }
+    
+        // Função para fechar a imagem expandida
+        function closeExpandedAttachment() {
+            const overlay = document.getElementById('attachment-overlay');
+            const expandedImage = document.getElementById('attachment-expanded');
+            overlay.style.display = 'none';
+            expandedImage.style.display = 'none';
+            overlay.removeEventListener('click', closeExpandedAttachment);
+            expandedImage.removeEventListener('click', closeExpandedAttachment);
+        }
+    
+        // Carregar os dados ao carregar a página
+        window.onload = loadData;
+    </script>
+    
+    
+    
+</body>
+</html>

@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>[SRC] - Diário Oficial</title>
+    <link rel="icon" href="https://www.habbo.com.br/habbo-imaging/badge/b09064s43084s50134eda71d18c813ca341e7e285475586bf5.gif">
+    <link rel="stylesheet" href="css.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        /* Estilo do HTML */
+        html {
+            height: 100%;
+            background-color: #ffffff; /* Background branco para a página */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow-y: auto;
+            background: transparent;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.5s ease-in-out;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #005dad;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .item {
+            background-color: #e7e7e7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            display: flex; /* Para que os itens fiquem em linha */
+            align-items: center; /* Alinha os itens verticalmente */
+            gap: 10px; /* Espaçamento entre os elementos internos */
+        }
+
+        .item-content {
+            flex: 1; /* Ocupa todo o espaço disponível */
+        }
+
+        .item-content h3, .item-content p {
+            margin: 0; /* Remove as margens padrão */
+        }
+
+        .logo {
+            width: auto; /* Utiliza o tamanho original da imagem */
+            max-width: 100%; /* Garante que não ultrapasse o tamanho original */
+            height: auto;
+            margin: 40px auto; /* Margem de 40px nas laterais e superior/inferior automático */
+            position: relative;
+            z-index: 0;
+            margin-top: 20px; /* Ajusta a margem superior para descer mais um pouco */
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #bf74c7;
+            font-size: 14px;
+            color: #ffffffc8;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .credits p strong {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .credits i {
+            margin-right: 8px;
+        }
+
+        .credits .line-break {
+            display: block;
+            margin-top: -10px;
+        }
+
+        .credits.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #07325A;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0e64b5;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0e64b5;
+        }
+
+        body {
+            scrollbar-width: thin;
+            scrollbar-color: #07325A #0e64b5;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0e64b5;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2em;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        /* Esconder a tela de carregamento */
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Animação para o texto "Carregando..." */
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Aplicar a animação ao texto */
+        #loading-screen span {
+            animation: fadeInOut 1s infinite;
+        }
+
+        /* Animação para o conteúdo */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilo do Navbar */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px; /* Largura do Navbar */
+            height: 100vh;
+            padding: 1rem 1rem 3rem;
+            background-color: #07325A; /* Cor do Navbar */
+            box-shadow: 1px 0 0 rgba(22, 8, 43, 0.1);
+            z-index: 1000;
+            transition: left 0.4s; /* Transição de animação */
+        }
+
+        .nav.show-menu {
+            left: 0; /* Exibir o Navbar ao abrir o menu */
+        }
+
+        .nav_container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: auto;
+        }
+
+        .nav_logo {
+            font-weight: bold;
+            margin-bottom: 2.5rem;
+            font-size: 24px;
+            color: white; /* Cor do texto do logo */
+        }
+
+        .nav_list {
+            display: grid;
+            row-gap: 2.5rem;
+        }
+
+        .nav_subtitle {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            color: #ffffffc8; /* Cor do subtítulo */
+        }
+
+        .nav_link {
+            display: flex;
+            align-items: center;
+            color: white; /* Cor do texto dos links */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav_link:hover {
+            color: #005dad; /* Cor ao passar o mouse */
+        }
+
+        .nav_icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+
+        .nav_name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .blue-text {
+    font-weight: bold;
+    color: #005dad; /* Cor azul utilizando o mesmo RGB mencionado anteriormente */
+}
+
+@media (max-width: 768px) {
+    .blue-text {
+        font-weight: bold;
+        color: #005dad;
+        font-size: 14px; /* Exemplo de tamanho de fonte para dispositivos móveis */
+        line-height: 1.4; /* Exemplo de altura da linha para dispositivos móveis */
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <nav class="nav" id="navbar">
+        <div class="nav_container">
+            <div class="nav_logo">
+                [SRC]
+            </div>
+            <div class="nav_list">
+                <div class="nav_item">
+                    <a href="inicial.html" class="nav_link">
+                        <i class='bx bx-home nav_icon'></i>
+                        <span class="nav_name">Home</span>
+                    </a>
+                </div>
+                <div class="nav_item">
+                    <div class="nav_item">
+                        <a href="atadereuniao.html" class="nav_link">
+                            <i class='bx bx-news nav_icon'></i>
+                            <span class="nav_name">Diário Oficial</span>
+                        </a>
+                    </div>
+                <div class="nav_item">
+                    <a href="onovoins.html" class="nav_link">
+                        <i class='bx bx-news nav_icon'></i>
+                        <span class="nav_name">Promovidos da Semana</span>
+                    </a>
+                </div>
+                <div class="nav_item">
+                    <a href="pagina2.html" class="nav_link">
+                        <i class='bx bx-news nav_icon'></i>
+                        <span class="nav_name">Projetos / Sugestões / Correções</span>
+                    </a>
+                </div>
+            </div>
+
+
+            </div>
+            <div class="nav_developed">
+                Desenvolvido por [SRC]
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <img class="logo" src="https://i.imgur.com/sVUAYxC.gif" alt="Habbo Logo">
+        <h1>Diário Oficial</h1>
+        <div class="section" id="description">
+            <p><span class="blue-text">O Setor de Relações Comunicativas dos Instrutores</span>, estarão dispostas curiosidades e informações adicionais que ocorreram ao longo da semana com os membros da nossa companhia.
+            </p>
+        </div>
+
+
+        <div class="section" id="sugestoes">
+            <h2>Entrevistas dos promovidos:</h2>
+            <h4>Confira os depoimentos de nossos promovidos e as expectativas para seus novos cargos!</h4>
+            <div id="entrevistas-container"></div>
+        </div>
+
+        <div class="section" id="projetos">
+            <h2>Melhores</h2>
+            <div id="melhores-container"></div>
+        </div>
+
+        <div class="section" id="correcoes">
+            <h2>Promovidos na RCC</h2>
+            <div id="promovidos-container"></div>
+        </div>
+
+        <div class="credits" id="credits">
+            <p>Feito por <strong>[SRC]</strong></p>
+            <i class='bx bxs-smile'></i>
+            <span class="line-break"></span>
+        </div>
+    </div>
+
+    <div id="loading-screen">
+        <span>Carregando...</span>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var loadingScreen = document.getElementById("loading-screen");
+            var container = document.getElementById("container");
+            var credits = document.getElementById("credits");
+    
+            setTimeout(function() {
+                loadingScreen.classList.add("hidden");
+                container.classList.add("fade-in");
+                credits.classList.add("show");
+            }, 2000);
+    
+            // Função para buscar dados do Google Apps Script
+            function fetchData(endpoint, containerId, transformFunction) {
+                fetch(endpoint)
+                    .then(response => response.json())
+                    .then(data => {
+                        const container = document.getElementById(containerId);
+                        const items = transformFunction(data);
+                        items.forEach(item => {
+                            const div = document.createElement("div");
+                            div.classList.add("item");
+                            div.innerHTML = item;
+                            container.appendChild(div);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            }
+    
+            // Função para transformar os dados das entrevistas dos promovidos
+            function transformEntrevistas(data) {
+                return data.map(item => `
+                    <img src="https://www.habbo.com/habbo-imaging/avatarimage?user=${item.nome}&action=std&direction=2&head_direction=2&gesture=std&size=m" alt="Avatar do Habbo" class="avatar">
+                    <div class="item-content">
+                        <h3>Cargo: ${item.cargo}</h3>
+                        <p>Nome: ${item.nome}</p>
+                        <p>Comentário: ${item.comentario}</p>
+                    </div>
+                `);
+            }
+    
+            // Função para transformar os dados dos melhores nos cargos
+            function transformMelhores(data) {
+                return data.map(item => `
+                    <img src="https://www.habbo.com/habbo-imaging/avatarimage?user=${item.nome}&action=std&direction=2&head_direction=2&gesture=std&size=m" alt="Avatar do Habbo" class="avatar">
+                    <div class="item-content">
+                        <h3>Cargo: ${item.cargo}</h3>
+                        <p>Nome: ${item.nome}</p>
+                        <p>Pontuação: ${item.pontuacao}</p>
+                    </div>
+                `);
+            }
+    
+            // Função para transformar os dados dos promovidos da RCC
+            function transformPromovidosRCC(data) {
+                return data.map(item => `
+                    <img src="https://www.habbo.com/habbo-imaging/avatarimage?user=${item.nome}&action=std&direction=2&head_direction=2&gesture=std&size=m" alt="Avatar do Habbo" class="avatar">
+                    <div class="item-content">
+                        <h3>Nome: ${item.nome}</h3>
+                        <p>Comentário: ${item.dados}</p>
+                    </div>
+                `);
+            }
+    
+            // URLs dos endpoints corretos do seu script do Google Apps
+            const entrevistasEndpoint = 'https://script.google.com/macros/s/AKfycbzxMXWGAokuOBogVglfc8tmEiYwAdxj-JLxNc_RSKFGWDh9c9SLPPibw5qAGouJLlkv/exec';
+            const melhoresEndpoint = 'https://script.google.com/macros/s/AKfycbzxMXWGAokuOBogVglfc8tmEiYwAdxj-JLxNc_RSKFGWDh9c9SLPPibw5qAGouJLlkv/exec';
+            const promovidosRCCEndpoint = 'https://script.google.com/macros/s/AKfycbzxMXWGAokuOBogVglfc8tmEiYwAdxj-JLxNc_RSKFGWDh9c9SLPPibw5qAGouJLlkv/exec';
+    
+            // Chamar as funções para buscar e exibir os dados
+            fetchData(entrevistasEndpoint, 'entrevistas-container', transformEntrevistas);
+            fetchData(melhoresEndpoint, 'melhores-container', transformMelhores);
+            fetchData(promovidosRCCEndpoint, 'promovidos-container', transformPromovidosRCC);
+        });
+    </script>
+    
+</body>
+</html>
